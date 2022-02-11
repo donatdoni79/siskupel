@@ -43,10 +43,10 @@ Website ini dikembangkan dengan beberapa spesifikasi:
 
 ## Mengakses Halaman Website dan Login ke Admin
 1. Buka browser Anda
-2. Ketik alamat http://websitekamu.com
-3. Untuk Login ke halaman Back End, silakan buka http://websitekamu.com/login
-4. Username: javawebmedia
-5. Password: javawebmedia
+2. Ketik alamat https://isn.co.id
+3. Untuk Login ke halaman Back End, silakan buka https://isn.co.id
+4. Username: 
+5. Password: 
 
 # CodeIgniter 4 Framework
 
@@ -93,7 +93,7 @@ Please read the [*Contributing to CodeIgniter*](https://github.com/codeigniter4/
 
 ## Server Requirements
 
-PHP version 7.3 or higher is required, with the following extensions installed:
+PHP version 7.4 or higher is required, with the following extensions installed:
 
 - [intl](http://php.net/manual/en/intl.requirements.php)
 - [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
