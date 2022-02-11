@@ -1,5 +1,5 @@
 # Company Profile Website Full Features with CodeIgniter 4 Framework
-Anda dapat membaca pandunan penggunaan website melalui link berikut ini https://javawebmedia.com/blog/download-source-code-website-company-profile-full-features-dengan-codeigniter-4/. Adapun demo dapat Anda akses di http://compro-ci4.javawebmedia.co.id/.
+Anda dapat membaca pandunan penggunaan website melalui link berikut ini https://isn.co.id
 
 Semoga bermanfaat.
 Spesifikasi Teknis Source Code
