@@ -45,8 +45,8 @@ Website ini dikembangkan dengan beberapa spesifikasi:
 1. Buka browser Anda
 2. Ketik alamat https://isn.co.id
 3. Untuk Login ke halaman Back End, silakan buka https://isn.co.id
-4. Username: 
-5. Password: 
+4. Username: admin1
+5. Password: admin1
 
 # CodeIgniter 4 Framework
 
