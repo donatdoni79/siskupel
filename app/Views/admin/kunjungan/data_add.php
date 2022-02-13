@@ -88,19 +88,55 @@ $validation = \Config\Services::validation();
         <!-- <small class="text-secondary">Format <strong>dd-mm-yyyy</strong>. Misal: <?= date('d-m-Y') ?></small> -->
     </div>        
 </div>
-<div class="form-group row">
-    <label class="col-2">Asisten Teknisi</label>
-    <div class="col-md-4">
-        <select name="id_peg" class="form-control  select2bs4 select2bs4-info" data-dropdown-css-class="select2bs4-info" style="width: 100%;">
-            <option value="">-- Pilih -- </option>
-            <?php foreach ($rpeg as $rpeg2) { ?>
-            <option value="<?= $rpeg2['emp_id'] ?>">
-                <?php echo $rpeg2['name']. ' / '. $rpeg2['position']; ?>
-            </option>
-            <?php } ?>
-        </select>
-    </div> 
+<div class="input_fields_wrap" >
+    <div class="form-group row">
+        <label class="col-2">Asisten Teknisi 1</label>
+        <div class="col-md-4">
+            <select name="id_peg[]" name="id_peg1" class="form-control  select2bs4 select2bs4-info" data-dropdown-css-class="select2bs4-info" style="width: 100%;">
+                <option value="">-- Pilih -- </option>
+                <?php foreach ($rpeg as $rpeg2) { ?>
+                    <option value="<?= $rpeg2['emp_id'] ?>">
+                        <?php echo $rpeg2['name']. ' / '. $rpeg2['position']; ?>
+                    </option>
+                    <?php } ?>
+                </select>
+        </div> 
+        <button class="add_field_button btn btn-xs btn-success" id="tombol_tambah_awal">&nbsp &nbsp + &nbsp &nbsp</button>
+    </div>
 </div>
+<hr>
+<div class="form-group row" style="margin-bottom : 0rem; ">
+    <label class="col-2">Peralatan</label>
+    <button class="add_field_button btn btn-xs btn-success" id="tombol_tambah_awal">&nbsp &nbsp + ADD  &nbsp &nbsp</button>
+</div>
+<table class="table table-bordered" id="example12">
+	<thead>
+		<tr>
+			<th width="5%">No</th>			
+			<th width="12%">Kode</th>
+			<th width="25%">Nama Barang</th>	
+			<th width="">Model</th>	
+			<th width="">Merk</th>
+			<th width="">Jumlah</th>	
+			<th width="">Satuan</th>	
+			<th width="">Keterangan</th>
+			<th width=""></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
 <div class="form-group row">
     <label class="col-2">Peralatan</label>
     <div class="col-md-4">
@@ -128,12 +164,53 @@ $validation = \Config\Services::validation();
 <?= form_close(); ?>
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    var conx = 1; //initlal text box count
+    $(document).ready(function(){
+        var idnya   ="";
+        var nama    ="";
+        var jab     ="";
+        var html    ="";
+        var max_fields      = 50; //maximum input boxes allowed
+        var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+        var add_button      = $(".add_field_button"); //Add button ID
+
+        $(add_button).click(function(e){ //on add input button click
+            e.preventDefault();
+            if(conx < max_fields){ //max input box allowed
+                conx++; //text box increment                     
+                    // '<div><input type="text" name="mytext[]"/><a href="#" class="remove_field">Remove</a></div>'
+                    html ='<div class="form-group row"> ' ;
+                    html = html + '<label class="col-2">Asisten Teknisi '+conx+'</label> ';
+                    html = html + '<div class="col-md-4"> ';
+                    html = html + '<select name="id_peg[]" name="id_peg1" class="form-control  select2bs4 select2bs4-info" data-dropdown-css-class="select2bs4-info" style="width: 100%;"> ';
+                    html = html +       '<option value="">-- Pilih -- </option> ';
+                                <?php foreach ($rpeg as $rpeg3) { ?>
+                                    idnya   = "<?php echo $rpeg3['emp_id'] ?> ";
+                                    nama    = "<?php echo $rpeg3['name']?> ";
+                                    jab     = "<?php echo $rpeg3['position']; ?> ";
+                    html = html +       '<option value='+idnya+' > '+ nama + ' / ' +jab + '</option> ' ;                                        
+                                        
+                                <?php } ?>
+                    html = html +'</select>';
+                    html = html +'</div> ' ; 
+                    html = html +' <button class="remove_field btn btn-xs btn-warning" id="hapus_soconx">&nbsp &nbsp - &nbsp &nbsp</button>';
+                    html = html +'</div>';
+
+                while (html != (html=html.replace("conx", conx)));     
+                $(wrapper).append(html); //add input box
+                $(".chosen-select").chosen();
+            }
+        });
+        
+        $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+            e.preventDefault(); $(this).parent('div').remove(); conx--;
+        })        
     });
     function isiPelanggan(id){
         // CSRF Hash
-        var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>'; 
-        var csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';      
+        //echo csrf_field();
+        // var csrfName = '<?php //echo $this->security->get_csrf_token_name(); ?>'; 
+        // var csrfHash = '<?php //echo $this->security->get_csrf_hash(); ?>';      
         //var index = id.match(/\d+/)[0]; 
         var id_desa = $("#id_desa").val(); 
         $("#ujalan").val("");         
@@ -141,21 +218,45 @@ $validation = \Config\Services::validation();
         if (id_desa != '' ) {
             $.ajax({
                 type:"POST",
-                url: "<?=base_url()?>/Kunjungan/getUjalan/"+id_desa,
-                data: {username: username,[csrfName]: csrfHash },
+                url: "<?=base_url()?>/admin/Kunjungan/getUjalan/"+id_desa,
+                data: {},
                 dataType: 'json',
                 success: function(data){	                
-                    // var jsonData 		= JSON.stringify(data.dbkab);
-                    // var myObject 		= eval('(' + jsonData + ')');
-                    // var row_item33 		= myObject.length;
-                    // if(row_item33>0){
-				    //     for (var xy = 0; xy < row_item33; xy++) {
-					// 		$("#id_kab").append('<option value='+data.dbkab[xy]["id_kab"]+'>'+data.dbkab[xy]["kd_kab"]+ ' / ' + data.dbkab[xy]["nama_kab"] +'</option>').trigger("chosen:updated");
-				    //     }                    
-                    // }
+                    var jsonData 		= JSON.stringify(data.dbdata);
+                    var myObject 		= eval('(' + jsonData + ')');
+                    var row_item33 		= myObject.length;
+                    if(row_item33>0){
+				        for (var xy = 0; xy < row_item33; xy++) {
+							$("#id_kab").append('<option value='+data.dbkab[xy]["id_kab"]+'>'+data.dbkab[xy]["kd_kab"]+ ' / ' + data.dbkab[xy]["nama_kab"] +'</option>').trigger("chosen:updated");
+				        }                    
+                    }
                     $("#ujalan").val("22");
                 }
             });
         }
     }    
+</script>
+
+<script>
+  $(function () {
+    $("#example12").DataTable({
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+      "responsive": true,
+      "paging": false,
+      "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]],
+      "lengthChange": true,
+      "autoWidth": true,
+      "searching": false,
+      "info": false
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example22').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
 </script>
