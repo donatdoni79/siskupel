@@ -50,6 +50,9 @@ $site        = $konfigurasi->listing();
   <script src="<?= base_url() ?>/assets/admin/plugins/jquery/jquery.min.js"></script>
   <!-- jQuery UI 1.11.4 -->
   <script src="<?= base_url('assets/admin/plugins/jquery-ui/jquery-ui.min.js') ?>"></script>
+  <!-- JQuery Form -->
+  <script src="<?=base_url()?>/assets/admin/plugins/jquery-ui/jquery.form.js"></script>
+
   <link href="<?= base_url('assets/admin/plugins/jquery-ui/jquery-ui.min.css') ?>" rel="stylesheet">
   <link rel="stylesheet" href="<?= base_url() ?>/assets/admin/v1.3.5/jquery.timepicker.min.css">
   <script src="<?= base_url() ?>/assets/admin/v1.3.5/jquery.timepicker.min.js"></script>
@@ -58,6 +61,11 @@ $site        = $konfigurasi->listing();
          z-index:1151 !important;
     }
   </style>
+  <!-- Select2 -->
+  <link rel="stylesheet" href="<?= base_url() ?>/assets/admin/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="<?= base_url() ?>/assets/admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">

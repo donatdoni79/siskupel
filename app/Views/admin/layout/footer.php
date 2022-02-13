@@ -54,24 +54,24 @@ $awal      = $sek - 100;
 
 <script>
 // Sweet alert
-function confirmation(ev) {
-ev.preventDefault();
-var urlToRedirect = ev.currentTarget.getAttribute('href'); //use currentTarget because the click may be on the nested i tag and not a tag causing the href to be empty
-console.log(urlToRedirect); // verify if this is the right URL
-swal({
-  title: "Yakin ingin menghapus data ini?",
-  text: "Data yang sudah dihapus tidak dapat dikembalikan",
-  icon: "warning",
-  buttons: true,
-  dangerMode: true,
-})
-.then((willDelete) => {
-  // redirect with javascript here as per your logic after showing the alert using the urlToRedirect value
-  if (willDelete) {
-    // Proses ke URL
-    window.location.href = urlToRedirect;
-  }
-});
+  function confirmation(ev) {
+    ev.preventDefault();
+    var urlToRedirect = ev.currentTarget.getAttribute('href'); //use currentTarget because the click may be on the nested i tag and not a tag causing the href to be empty
+    console.log(urlToRedirect); // verify if this is the right URL
+    swal({
+      title: "Yakin ingin menghapus data ini?",
+      text: "Data yang sudah dihapus tidak dapat dikembalikan",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+  })
+  .then((willDelete) => {
+    // redirect with javascript here as per your logic after showing the alert using the urlToRedirect value
+    if (willDelete) {
+      // Proses ke URL
+      window.location.href = urlToRedirect;
+    }
+  });
 }
 
 // Kirim ulang
@@ -175,6 +175,8 @@ tinymce.init({
 <script src="<?= base_url() ?>/assets/admin/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="<?= base_url() ?>/assets/admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="<?= base_url() ?>/assets/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- Chosen Select -->
+<script src="<?=base_url()?>/assets/admin/plugins/chosen/chosen.jquery.js"></script>
 
 <script>
 $(document).ready(function(){
@@ -202,6 +204,9 @@ $(document).ready(function(){
 <!-- AdminLTE for demo purposes -->
 <script src="<?= base_url() ?>/assets/admin/dist/js/demo.js"></script>
 <!-- Page specific script -->
+<!-- Select2 -->
+<script src="<?= base_url() ?>/assets/admin/plugins/select2/js/select2.full.min.js"></script>
+
 <script>
   $(function () {
     $("#example1").DataTable({
@@ -232,94 +237,95 @@ $(document).ready(function(){
     })
   })
   // tanggal dan select
-  //$(function () {
+  $(function () {
     //Initialize Select2 Elements
-    //$('.select2').select2()
+    $('.select2').select2()
 
     //Initialize Select2 Elements
-    // $('.select2bs4').select2({
-    //   theme: 'bootstrap4'
-    // })
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
 
     //Datemask dd/mm/yyyy
-    // $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+   // $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
     // //Datemask2 mm/dd/yyyy
-    // $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+   // $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
     // //Money Euro
-    // $('[data-mask]').inputmask()
+    //$('[data-mask]').inputmask()
 
-  //   //Date picker
-  //   $('#reservationdate').datetimepicker({
-  //       format: 'L'
-  //   });
+    //   //Date picker
+    // $('#reservationdate').datetimepicker({
+    //     format: 'L'
+    // });
 
-  //   //Date and time picker
-  //   $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+    //   //Date and time picker
+    //$('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
 
-  //   //Date range picker
-  //   $('#reservation').daterangepicker()
-  //   //Date range picker with time picker
-  //   $('#reservationtime').daterangepicker({
-  //     timePicker: true,
-  //     timePickerIncrement: 30,
-  //     locale: {
-  //       format: 'MM/DD/YYYY hh:mm A'
-  //     }
-  //   })
-  //   //Date range as a button
-  //   $('#daterange-btn').daterangepicker(
-  //     {
-  //       ranges   : {
-  //         'Today'       : [moment(), moment()],
-  //         'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-  //         'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
-  //         'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-  //         'This Month'  : [moment().startOf('month'), moment().endOf('month')],
-  //         'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-  //       },
-  //       startDate: moment().subtract(29, 'days'),
-  //       endDate  : moment()
-  //     },
-  //     function (start, end) {
-  //       $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
-  //     }
-  //   )
+    //   //Date range picker
+   // $('#reservation').daterangepicker()
+    //   //Date range picker with time picker
+    // $('#reservationtime').daterangepicker({
+    //   timePicker: true,
+    //   timePickerIncrement: 30,
+    //   locale: {
+    //     format: 'MM/DD/YYYY hh:mm A'
+    //   }
+    // })
+    //   //Date range as a button
+    // $('#daterange-btn').daterangepicker(
+    //   {
+    //     ranges   : {
+    //       'Today'       : [moment(), moment()],
+    //       'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+    //       'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+    //       'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+    //       'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+    //       'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+    //     },
+    //     startDate: moment().subtract(29, 'days'),
+    //     endDate  : moment()
+    //   },
+    //   function (start, end) {
+    //     $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+    //   }
+    //)
 
-  //   //Timepicker
-  //   $('#timepicker').datetimepicker({
-  //     format: 'LT'
-  //   })
+    //   //Timepicker
+    // $('#timepicker').datetimepicker({
+    //   format: 'LT'
+    // })
 
-  //   //Bootstrap Duallistbox
-  //   $('.duallistbox').bootstrapDualListbox()
+    //   //Bootstrap Duallistbox
+    //$('.duallistbox').bootstrapDualListbox()
 
-  //   //Colorpicker
-  //   $('.my-colorpicker1').colorpicker()
-  //   //color picker with addon
-  //   $('.my-colorpicker2').colorpicker()
+    //   //Colorpicker
+    //$('.my-colorpicker1').colorpicker()
+    //   //color picker with addon
+    //$('.my-colorpicker2').colorpicker()
 
-  //   $('.my-colorpicker2').on('colorpickerChange', function(event) {
-  //     $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
-  //   })
+    // $('.my-colorpicker2').on('colorpickerChange', function(event) {
+    //   $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+    // })
 
-  //   $("input[data-bootstrap-switch]").each(function(){
-  //     $(this).bootstrapSwitch('state', $(this).prop('checked'));
-  //   })
+    $("input[data-bootstrap-switch]").each(function(){
+      $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    })
 
-  // })
-  // BS-Stepper Init
-  document.addEventListener('DOMContentLoaded', function () {
-    //window.stepper = new Stepper(document.querySelector('.bs-stepper'))
   })
+
+  // BS-Stepper Init
+  // document.addEventListener('DOMContentLoaded', function () {
+  //   window.stepper = new Stepper(document.querySelector('.bs-stepper'))
+  // })
 
   // DropzoneJS Demo Code Start
   // Dropzone.autoDiscover = false
 
   // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
-  //var previewNode = document.querySelector("#template")
- //  previewNode.id = "1"
-  //var previewTemplate = previewNode.parentNode.innerHTML
-  //previewNode.parentNode.removeChild(previewNode)
+  // var previewNode = document.querySelector("#template")
+  // previewNode.id = "";
+  // var previewTemplate = previewNode.parentNode.innerHTML
+  // previewNode.parentNode.removeChild(previewNode)
 
   // var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
   //   url: "/target-url", // Set the url
@@ -337,7 +343,7 @@ $(document).ready(function(){
   //   file.previewElement.querySelector(".start").onclick = function() { myDropzone.enqueueFile(file) }
   // })
 
-  // Update the total progress bar
+  // // Update the total progress bar
   // myDropzone.on("totaluploadprogress", function(progress) {
   //   document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
   // })
@@ -364,6 +370,60 @@ $(document).ready(function(){
   //   myDropzone.removeAllFiles(true)
   // }
   // DropzoneJS Demo Code End
+</script>
+<script type="text/javascript">
+
+  var pageIDForm = "";
+
+  function submitForm(pageID) {
+      //tinyMCE.triggerSave();
+      for(instance in CKEDITOR.instances) {
+          CKEDITOR.instances[instance].updateElement();
+      }
+      
+      $('#'+pageID).submit();
+      pageIDForm = pageID;
+  }
+  
+  $('#post-form').ajaxForm({                
+      dataType        : 'json',
+      beforeSubmit    : ShowRequest,
+      success         : SubmitSuccesful,
+      error           : AjaxError                              
+  });
+
+  function ShowRequest(formData, jqForm, options) {
+    var queryString = $.param(formData);
+    $("#message-loader").show();
+    return true;
+  }
+
+  function AjaxError(){
+      alertify.alert("Oppsss, an unknown error has occurred. You need to refresh the browser to see whether your data is saved (or not).");
+      //alert(statusText);
+  }
+
+  function SubmitSuccesful(responseText, statusText) {
+      $("#message-loader").hide();
+      if(responseText.response == "success"){
+          alertify.success(responseText.message);
+          window.setTimeout(function(){window.location.replace(responseText.url)},2000);
+      }else{
+          alertify.error(responseText.message);
+      }
+  }
+
+  var config = {
+          '.chosen-select'           : {},
+          '.chosen-select-deselect'  : {allow_single_deselect:true},
+          '.chosen-select-no-single' : {disable_search_threshold:10},
+          '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+          '.chosen-select-width'     : {width:"95%"}
+      }
+
+  for (var selector in config) {
+      $(selector).chosen(config[selector]);
+  }    
 </script>
 </body>
 </html>

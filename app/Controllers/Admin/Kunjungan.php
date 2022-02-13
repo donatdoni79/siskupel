@@ -3,9 +3,9 @@
 namespace App\Controllers\Admin;
 
 //$session = \Config\Services::session();
-use App\Models\Barang_model;
+use App\Models\Kunjungan_model;
 
-class Barang extends BaseController
+class Kunjungan extends BaseController
 {
     // mainpage
     public function index()
@@ -15,14 +15,14 @@ class Barang extends BaseController
         // $nm_user = $session->get('nama');
         //$nm_user = '';     
         //$this->session->set($newdata);
-        $m_data = new Barang_model();
+        $m_data = new Kunjungan_model();
         $r_data = $m_data->datanya();
         $data_page = [
-            'title'     => ' Daftar Barang',
+            'title'     => ' Daftar Kunjungan',
             'r_data'    => $r_data,
-            'content'   => 'admin/Barang/index',
-            'id_01'     => 5,
-            'id_02'     => 88,
+            'content'   => 'admin/kunjungan/index',
+            'id_01'     => 4,
+            'id_02'     => 870,
             'id_03'     => -1,
         ];        
         echo view('admin/layout/wrapper', $data_page);        
@@ -35,8 +35,10 @@ class Barang extends BaseController
         // $session = session();
         // $nm_user = $session->get('nama');
         $nm_user = '';
-        $m_data = new Barang_model();
-        //$r_data = $m_data->datanya();
+        $m_data = new Kunjungan_model();
+        $r_plg  = $m_data->pelanggan();
+        $r_peg  = $m_data->pegawai();
+        $r_brg  = $m_data->barang();
         
         // Start validasi
         if ($this->request->getMethod() === 'post' && $this->validate(
@@ -80,13 +82,16 @@ class Barang extends BaseController
             $m_data->save($data_save);
             // masuk database
             //$this->session->setFlashdata('sukses', 'Data telah ditambah');
-            return redirect()->to(base_url('admin/Barang'));
+            return redirect()->to(base_url('admin/Kunjungan'));
         }
         $data_page = [
-            'title'     => ' Tambah Barang ' ,
-            'content'   => 'admin/barang/data_add',
-            'id_01'     => 5,
-            'id_02'     => 88,
+            'title'     => ' Tambah Kunjungan ' ,
+            'content'   => 'admin/kunjungan/data_add',
+            'rplg'      => $r_plg,
+            'rpeg'      => $r_peg,
+            'rbrg'      => $r_brg,
+            'id_01'     => 4,
+            'id_02'     => 870,
             'id_03'     => -1,            
         ];
         echo view('admin/layout/wrapper', $data_page);
@@ -99,7 +104,7 @@ class Barang extends BaseController
         // $session = session();
         // $nm_user = $session->get('nama');
         $nm_user = '';
-        $m_data = new Barang_model();
+        $m_data = new Kunjungan_model();
         $r_data = $m_data->datanya($its_id);
         
 	    // echo "<pre>";
@@ -144,14 +149,14 @@ class Barang extends BaseController
             // masuk database
             //$this->session->setFlashdata('sukses', 'Data telah diedit');
 
-            return redirect()->to(base_url('admin/Barang/index'));
+            return redirect()->to(base_url('admin/Kunjungan/index'));
         }
         $data_page = [
             'title'     => ' Edit data : ' . $r_data['item_name'],
             'r_data'    => $r_data,
-            'content'   => 'admin/barang/data_update',
-            'id_01'     => 5,
-            'id_02'     => 88,
+            'content'   => 'admin/kunjungan/data_update',
+            'id_01'     => 4,
+            'id_02'     => 870,
             'id_03'     => -1,            
         ];
         echo view('admin/layout/wrapper', $data_page);
@@ -165,6 +170,28 @@ class Barang extends BaseController
         $m_desa->delete($data);
         // masuk database
         $this->session->setFlashdata('sukses', 'Data telah dihapus');
-        return redirect()->to(base_url('admin/Barang/index'));
+        return redirect()->to(base_url('admin/Kunjungan/index'));
     }
+	public function getUjalan($its_id){
+        //checklogin();
+        $m_data = new Kunjungan_model();
+        $r_data = $m_data->pelanggan($its_id);
+		$jmlbrs 	= count($r_data);
+		if($jmlbrs>0) {
+			$data = array(
+				'response'	=> 'success',
+				'dbdata'	=> $r_data,			
+				'stsdb'		=> 'Ada',			
+			);		
+		}else{
+			//$dbstok=array();
+			$data = array(
+				'response'	=> 'success',
+				'dbdata'	=> $r_data,			
+				'stsdb'		=> '-',			
+			);			
+		}
+		// echo "<pre>";print_r($data);die();
+		echo json_encode($data);
+	}    
 }

@@ -95,6 +95,8 @@ $menu_layanan = $menu->layanan();
   <script src="<?= base_url() ?>/assets/template/assets/vendor/php-email-form/validate.js"></script>
   <script src="<?= base_url() ?>/assets/template/assets/vendor/purecounter/purecounter.js"></script>
   <script src="<?= base_url() ?>/assets/template/assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <!-- Select2 -->
+  <script src="<?= base_url() ?>/assets/admin/plugins/select2/js/select2.full.min.js"></script>
 
   <!-- Template Main JS File -->
   <script src="<?= base_url() ?>/assets/template/assets/js/main.js"></script>

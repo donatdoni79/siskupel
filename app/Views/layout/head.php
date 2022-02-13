@@ -36,6 +36,10 @@ $site        = $konfigurasi->listing();
   <!-- Template Main CSS File -->
   <link href="<?= base_url() ?>/assets/template/assets/css/style.css" rel="stylesheet">
 
+  <!-- Select2 -->
+  <link rel="stylesheet" href="<?= base_url() ?>assets/admin/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="<?= base_url() ?>assets/admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+
   <!-- =======================================================
   * Template Name: Medicio - v4.1.0
   * Template URL: https://bootstrapmade.com/medicio-free-bootstrap-theme/
