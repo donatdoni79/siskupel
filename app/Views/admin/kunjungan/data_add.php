@@ -40,8 +40,8 @@ $validation = \Config\Services::validation();
  <?php endif ?>
  <!-- <form class="form-horizontal"> -->
 <div class="form-group row">
-    <label class="col-2">Pelanggan </label>
-    <div class="col-12 col-md-6">
+    <label class="col-sm-2">Pelanggan </label>
+    <div class="col-sm-6">
         <!-- <div class="form-group"> -->
             <select name="id_desa" id="id_desa" onchange="isiPelanggan(this.id);" class="form-control  select2bs4 select2bs4-info" data-dropdown-css-class="select2bs4-info" style="width: 100%;">
                 <option value="">-- Pilih -- </option>
@@ -54,14 +54,14 @@ $validation = \Config\Services::validation();
             <small class="text-secondary">Daftar Pelanggan</small>
         <!-- </div> -->
     </div>
-    <label class="col-1">U.Jalan</label>
-    <div class="col-3">
+    <label class="col-sm-1">U.Jalan</label>
+    <div class="col-sm-3">
         <input type="text" name="ujalan" id="ujalan" class="form-control" placeholder="Uanga Jalan" value="" style="text-align:right;">
     </div>        
 </div>
 <div class="form-group row">
-    <label class="col-2">Keterangan</label>
-    <div class="col-10">
+    <label class="col-sm-2">Keterangan</label>
+    <div class="col-sm-10">
         <input type="text" name="ket" id="ket" class="form-control" placeholder="Keterangan " value="" >
     </div>
 </div>
@@ -79,8 +79,8 @@ $validation = \Config\Services::validation();
         </select>
             <!-- </div> -->
     </div>
-    <label class="col-1">Tanggal </label>
-	<div class="col-md-3 input-group date"id="reservationdate" data-target-input="nearest">
+    <label class="col-sm-1">Tanggal </label>
+	<div class="col-sm-3 input-group date"id="reservationdate" data-target-input="nearest">
 		<input type="text" name="tgl" id="tgl" class="form-control tanggal" value="">
         <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
@@ -90,8 +90,8 @@ $validation = \Config\Services::validation();
 </div>
 <div class="input_fields_wrap" >
     <div class="form-group row">
-        <label class="col-2">Asisten Teknisi 1</label>
-        <div class="col-md-4">
+        <label class="col-sm-2">Asisten Teknisi 1</label>
+        <div class="col-sm-4">
             <select name="id_peg[]" name="id_peg1" class="form-control  select2bs4 select2bs4-info" data-dropdown-css-class="select2bs4-info" style="width: 100%;">
                 <option value="">-- Pilih -- </option>
                 <?php foreach ($rpeg as $rpeg2) { ?>
@@ -100,14 +100,16 @@ $validation = \Config\Services::validation();
                     </option>
                     <?php } ?>
                 </select>
-        </div> 
-        <button class="add_field_button btn btn-xs btn-success" id="tombol_tambah_awal">&nbsp &nbsp + &nbsp &nbsp</button>
+            </div> 
+        <div class="col-sm-4">
+            <button class="add_field_button btn btn-xs btn-success" id="tombol_tambah_awal">&nbsp &nbsp + &nbsp &nbsp</button>
+        </div>
     </div>
 </div>
 <hr>
 <div class="form-group row" style="margin-bottom : 0rem; ">
-    <label class="col-2">Peralatan</label>
-    <button class="add_field_button btn btn-xs btn-success" id="tombol_tambah_awal">&nbsp &nbsp + ADD  &nbsp &nbsp</button>
+    <label class="col-sm-2">Peralatan</label>
+    <button class="mdl_add btn btn-xs btn-success" id="tombol_tambah_awal">&nbsp &nbsp + ADD  &nbsp &nbsp</button>
 </div>
 <table class="table table-bordered" id="example12">
 	<thead>
@@ -137,31 +139,69 @@ $validation = \Config\Services::validation();
 		</tr>
 	</tbody>
 </table>
-<div class="form-group row">
-    <label class="col-2">Peralatan</label>
-    <div class="col-md-4">
-        <select name="id_peg" class="form-control  select2bs4 select2bs4-purple" data-dropdown-css-class="select2bs4-purple" style="width: 100%;">
-            <option value="">-- Pilih -- </option>
-            <?php foreach ($rbrg as $rbrg1) { ?>
-            <option value="<?= $rbrg1['item_id'] ?>">
-                <?php echo $rbrg1['item_nm']. ' - '. $rbrg1['item_no']. ' - '. $rbrg1['item_model']. ' - '. $rbrg1['item_merk']; ?>
-            </option>
-            <?php } ?>
-        </select>
-    </div> 
-</div>
 <hr>
 <div class="form-group row">
-    <div class="col-2">
+    <div class="col-sm-2">
         <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
     </div> 
-    <div class="col-2">
+    <div class="col-sm-2">
         <a href="<?= base_url('admin/Barang') ?>" type="button" class="btn btn-default" ><i class="fa fa-times"></i> Cancel</a>
     </div>
 </div>
 <!-- </form> -->
 
 <?= form_close(); ?>
+
+
+<div class="modal fade" id="modal-default">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">New Data Barang</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+
+				<div class="form-group row">
+					<label class="col-sm-3">Nama Barang</label>
+					<div class="col-sm-9">
+                        <select name="id_brg" id="id_brg" class="form-control  select2bs4 select2bs4-purple" data-dropdown-css-class="select2bs4-purple" style="width: 100%;">
+                            <option value="">-- Pilih -- </option>
+                            <?php foreach ($rbrg as $rbrg1) { ?>
+                            <option value="<?= $rbrg1['item_id'] ?>">
+                                <?php echo $rbrg1['item_nm']. ' - '. $rbrg1['item_no']. ' - '. $rbrg1['item_model']. ' - '. $rbrg1['item_merk']; ?>
+                            </option>
+                            <?php } ?>
+                        </select> 
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-sm-3">Jumlah Dipakai</label>
+					<div class="col-sm-9">
+						<input type="text" name="username" class="form-control" placeholder="Username" value="<?= set_value('username') ?>" required>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-sm-3">Satuan</label>
+					<div class="col-9">
+						<input type="text" name="stn_brg" id="stn_brg" class="form-control" placeholder="Password" value="<?= set_value('password') ?>" required>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> CANCEL</button>
+				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> SAVE</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 <script type="text/javascript">
     var conx = 1; //initlal text box count
@@ -180,8 +220,8 @@ $validation = \Config\Services::validation();
                 conx++; //text box increment                     
                     // '<div><input type="text" name="mytext[]"/><a href="#" class="remove_field">Remove</a></div>'
                     html ='<div class="form-group row"> ' ;
-                    html = html + '<label class="col-2">Asisten Teknisi '+conx+'</label> ';
-                    html = html + '<div class="col-md-4"> ';
+                    html = html + '<label class="col-sm-2">Asisten Teknisi '+conx+'</label> ';
+                    html = html + '<div class="col-sm-4"> ';
                     html = html + '<select name="id_peg[]" name="id_peg1" class="form-control  select2bs4 select2bs4-info" data-dropdown-css-class="select2bs4-info" style="width: 100%;"> ';
                     html = html +       '<option value="">-- Pilih -- </option> ';
                                 <?php foreach ($rpeg as $rpeg3) { ?>
@@ -193,7 +233,9 @@ $validation = \Config\Services::validation();
                                 <?php } ?>
                     html = html +'</select>';
                     html = html +'</div> ' ; 
+                    html = html +'<div class="col-sm-4"> ' ; 
                     html = html +' <button class="remove_field btn btn-xs btn-warning" id="hapus_soconx">&nbsp &nbsp - &nbsp &nbsp</button>';
+                    html = html +'</div> ' ; 
                     html = html +'</div>';
 
                 while (html != (html=html.replace("conx", conx)));     
@@ -205,6 +247,9 @@ $validation = \Config\Services::validation();
         $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
             e.preventDefault(); $(this).parent('div').remove(); conx--;
         })        
+        $(".mdl_add").click(function(){
+            $("#modal-default").modal('show');
+        });        
     });
     function isiPelanggan(id){
         // CSRF Hash
@@ -226,11 +271,8 @@ $validation = \Config\Services::validation();
                     var myObject 		= eval('(' + jsonData + ')');
                     var row_item33 		= myObject.length;
                     if(row_item33>0){
-				        for (var xy = 0; xy < row_item33; xy++) {
-							$("#id_kab").append('<option value='+data.dbkab[xy]["id_kab"]+'>'+data.dbkab[xy]["kd_kab"]+ ' / ' + data.dbkab[xy]["nama_kab"] +'</option>').trigger("chosen:updated");
-				        }                    
+                        $("#ujalan").val(formatDollar3(data.dbdata[0]["uang_jalan"]));
                     }
-                    $("#ujalan").val("22");
                 }
             });
         }

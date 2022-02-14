@@ -425,5 +425,316 @@ $(document).ready(function(){
       $(selector).chosen(config[selector]);
   }    
 </script>
+    <!-- SCRIPT CUSTOM CEK NUMERIK INPUT DAN FORMAT CURRENCY UNTUK DIGUNAKAN DI JURNAL, PAYMENT, RECEPAY, QUOTATION, DLL-->
+    <script>
+        function delRow(id){
+            //alert(id);
+            $('#'+id).parent().parent().detach();
+        }
+
+        function cegahKarakter(evt) {
+            var theEvent = evt || window.event;
+            var key = theEvent.keyCode || theEvent.which;
+                key = String.fromCharCode( key );
+            var regex = /[0-9]|\./;
+            if( !regex.test(key) ) {
+                theEvent.returnValue = false;
+                if(theEvent.preventDefault) theEvent.preventDefault();
+            }
+        }
+
+        function jikaEnter(evt) {
+            // Cari sintak Jika Enter maka memanggil formatdolar2
+            var theEvent = evt || window.event;
+            var key = theEvent.keyCode || theEvent.which;
+                key = String.fromCharCode( key );
+            var regex = /[0-9]|\./;
+            if( !regex.test(key) ) {
+                theEvent.returnValue = false;
+                if(theEvent.preventDefault) theEvent.preventDefault();
+            }
+        }        
+
+        function getAddressCustomer(id){
+            // $('#cust_id').change(function() {alert($(this).val())})
+            var valval = $('#'+id).val();
+            if (valval != '') {
+                $.ajax({
+                    type:"POST",
+                    url: "<?=base_url()?>C_sales/getAddressCustomer/"+valval,
+                    data: {"cust_id" : id},
+                    dataType: 'json',
+                    success: function(data){
+                        //$('#showCurrNo').show();
+                        $('#address').val(data.address);
+                        $('#phone').val(data.cust_telp);
+                        $('#cp').val(data.cp);
+                        // $('#address').html(data.address);
+                        //$("#passedValue").val(data);
+                    }
+                });
+            }
+        }        
+
+        function formatDollar(num) {
+            // if (Number(num){
+                
+            // }
+            var p = num.toFixed(2).split(".");
+            return  p[0].split("").reverse().reduce(function(acc, num, i, orig) {
+                return  num + (i && !(i % 3) ? "," : "") + acc;
+            }, "") + "." + p[1];
+        }
+
+        function formatDollar1(nStr)
+        {
+            // nStr =nStr.toFixed(4)
+            nStr += '';
+            x = nStr.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+            var yyk=x1 + x2;  
+            // alert(x1);
+            // alert(x2.length);      
+            if(x2.length>=6){
+                
+                var y1=x1;
+                var y1=y1.replace(/,/,"")
+                
+                var yy=y1+x2;
+                var angka=Number(yy).toFixed(4);
+                
+                var y2 = angka.substring(1,7);
+                //alert(y2);
+                var yyk=x1 + y2;
+            }
+            return yyk;
+        }                           
+
+        function formatDollar3(nStr) {
+            var yyk="";
+            nStr += '';
+            x = nStr.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+            var yyk=x1 + x2;  
+            // alert(x1);
+            // alert(x2.length);      
+            if(x2.length>=6){
+                
+                var y1=x1;
+                var y1=y1.replace(/,/,"")
+                
+                var yy=y1+x2;
+                var angka=Number(yy).toFixed(4);
+                
+                var y2 = angka.substring(1,7);
+                //alert(y2);
+                yyk=x1 + y2;
+            }
+            var i = yyk.length;            
+            //alert(i);
+            if(yyk.substring(i-1,i)==0){
+                yyk = yyk.substring(0,i-1);
+                var h = yyk.length;                
+                if(yyk.substring(h-1,h)==0){
+                    yyk = yyk.substring(0,h-1);
+                }                
+            }                            
+            return yyk;
+        }        
+        
+        function formatDollar2(nStr) {
+            
+            var kkStr=nStr;
+            //alert(nStr);
+            //kkStr=kkStr.value.replace(/,/g, "");
+            //var newstr= kkStr.replace(/,/g,"");
+            
+            //var nval=Number(newstr);            
+            nval=kkStr.toFixed(4);
+            //alert(nval);
+            var sval = formatDollar3(nval);
+            return sval;
+        }
+
+        function FormatCurrency(ctrl) {
+            //Check if arrow keys are pressed - we want to allow navigation around textbox using arrow keys
+            if (event.keyCode == 37 || event.keyCode == 38 || event.keyCode == 39 || event.keyCode == 40)
+            {
+                return;
+            }
+            var val = ctrl.value;
+            val=val.replace(/,/g, "");
+            var nval=Number(val);
+            ctrl.value ="";
+            nval=nval.toFixed(4);
+            //alert(nval);
+            var sval = formatDollar3(nval);
+            ctrl.value =sval;
+        }
+
+        function FormatCurrbaru(ctrl) {
+            //Check if arrow keys are pressed - we want to allow navigation around textbox using arrow keys
+            if (event.keyCode == 37 || event.keyCode == 38 || event.keyCode == 39 || event.keyCode == 40)
+            {
+                return;
+            }
+            var val = ctrl.value;
+            val=val.replace(/,/g, "");
+            var nval=Number(val);
+            ctrl.value ="";
+            nval=nval.toFixed(0);
+            //alert(nval);
+            var sval = formatDollar1(nval);
+            ctrl.value =sval;            
+            // var val = ctrl.value;
+            // val=val.replace(/,/g, "");
+            // var nval=Number(val);
+            // ctrl.value ="";
+            // nval=nval.toFixed(4);
+            // //alert(nval);
+            // var sval = formatDollar3(nval);
+            // ctrl.value =sval;
+        }
+
+        function formatNil(ctrl) {
+            //Check if arrow keys are pressed - we want to allow navigation around textbox using arrow keys
+            if (event.keyCode == 37 || event.keyCode == 38 || event.keyCode == 39 || event.keyCode == 40)
+            {
+                return;
+            }
+
+            var val = ctrl.value;
+
+            val = val.replace(/,/g, "");
+            
+            // var val = parseFloat(ctrl.value.replace(/,/g, ''));
+            // val = val.toFixed(4)
+            //val = val.toFixed(4);
+            ctrl.value = "";
+            val += '';
+            x = val.split('.');
+            x1 = x[0];
+            kstr = '0000'+x[1];
+            //alert(kstr);
+            kstr =kstr.substring(kstr.length-3, 4);
+            
+            // x2 = x.length > 1 ? '.' + x[1] : '';
+            x2 = x.length > 1 ? '.' + kstr : '';
+            var rgx = /(\d+)(\d{3})/;
+
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+
+            ctrl.value = x1 + x2;
+            // parseFloat(x1 + x2).toFixed(2);
+            //console.log(ctl);
+        }
+        
+        // function right(str, chr){
+        //     return str.slice(myString.length-chr,myString.length);
+        // }        
+
+        function FormatCurrency2(ctrl) {
+            //Check if arrow keys are pressed - we want to allow navigation around textbox using arrow keys
+            if (event.keyCode == 37 || event.keyCode == 38 || event.keyCode == 39 || event.keyCode == 40)
+            {
+                return;
+            }
+
+            var val = ctrl.value;
+
+            val = val.replace(/,/g, "")
+            ctrl.value = "";
+            val += '';
+            x = val.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+
+            var rgx = /(\d+)(\d{3})/;
+
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+            var yyk=x1 + x2;
+            alert(yyk);
+            ctrl.value = yyk;
+            // ctrl.value = x1 + x2;
+            // parseFloat(x1 + x2).toFixed(2);
+            //console.log(ctl);
+        }        
+
+
+        function checkNumeric(ctrl) {
+            // if (event.keyCode == 37 || event.keyCode == 38 || event.keyCode == 39 || event.keyCode == 40)
+            // {
+            //     return;
+            // }
+            //alert(event.keyCode);
+            if ((event.keyCode >= 48 && event.keyCode <= 57) || event.keyCode==46 || event.keyCode==44) {
+                //alert("bener");
+            }else{
+                //alert("salah");
+                return;                
+            }
+            //var val = ctrl.value;
+            //ctrl.value = val;
+            // event.keyCode >= 48 && event.keyCode <= 57 && event.keyCode==46 && event.keyCode==44
+            //return (event.keyCode >= 48 && event.keyCode <= 57) || event.keyCode=46;
+
+            // if ((event.keyCode < 48 || event.keyCode > 57)){
+            //      if((event.keyCode == 45 || event.keyCode == 46 )){
+            //       event.returnValue = true;
+            // }else{
+            //     event.returnValue = false;
+            //    }
+            // }              
+        }
+
+        function formatTgl(nStr) {            
+                var tglnya   = new Date(nStr);
+                var month   = tglnya.getMonth()+1;
+                var day     = tglnya.getDate();
+                var year    = tglnya.getFullYear().toString();
+                if(day<10) {
+                    var dd='0'+day;
+                }else{
+                    var dd=day.toString();
+                } 
+                if(month<10) {
+                    var mm ='0'+month;
+                }else{
+                    var mm =month.toString();
+                } 
+                var stglpo = dd + "-" + mm + "-" + year;
+            //var kkStr=nStr;
+            //alert(nStr);
+            //kkStr=kkStr.value.replace(/,/g, "");
+            //var newstr= kkStr.replace(/,/g,"");            
+            //var nval=Number(newstr);            
+            //nval=kkStr.toFixed(4);
+            //alert(nval);
+            //var sval = formatDollar3(nval);
+            return stglpo;
+        }
+
+        function formatAngka(nStr) {
+            var dta =nStr;
+            if (isNaN(dta)){
+                dta=0;
+            }
+            return dta;
+        }    
+    </script>
 </body>
 </html>
