@@ -144,6 +144,18 @@ function checksiswa()
     }
 }
 
+function vTgl_save($niltgl=NULL){
+    $hasil='';
+    if($niltgl!=NULL){
+        if(strtotime($niltgl) == true && $niltgl != '1970-01-01' && $niltgl != '0000-00-00')  {       
+            $hasil=date('Y-m-d', strtotime($niltgl));
+        }
+    }else{
+        $hasil='';
+    }
+    return $hasil;
+}
+
 // tanggal_bulan
      function tanggal_id($tanggal)
      {

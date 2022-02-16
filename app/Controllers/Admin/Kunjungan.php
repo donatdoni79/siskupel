@@ -40,48 +40,39 @@ class Kunjungan extends BaseController
         $r_peg  = $m_data->pegawai();
         $r_brg  = $m_data->barang();
         
-        // Start validasi
+        // Start validasi id_desa id_peg
         if ($this->request->getMethod() === 'post' && $this->validate(
             [
-                'kd_brg' => 'required',
-            ]
-        )) {
-    // isn_item =  item_id, item_no, item_nm, item_desc, unit_price, unit, contents, content_unit, 
-    // model, merk, stock_min, stock_max, created_by, created_date, modified_by, modified_date
-            $item_no        = $this->request->getPost('kd_brg');
-            $item_nm        = $this->request->getPost('nm_brg');
-            $item_desc      = $this->request->getPost('ket');
-            $item_unit_price     = $this->request->getPost('harga');
-            $item_unit           = $this->request->getPost('satuan');
-            $item_contents       = $this->request->getPost('isi');
-            $item_content_unit   = $this->request->getPost('satuan_isi');
-            $item_model          = $this->request->getPost('item_model');
-            $item_merk           = $this->request->getPost('item_merk');
-            $item_stock_min      = $this->request->getPost('stokmax');
-            $item_stock_max      = $this->request->getPost('stokmin');
+                'id_desa' => 'required', 'id_peg' => 'required', 'tgl' => 'required'
+            ])) 
+        {
+    // isn_visit_emp    = ve_id, ve_no, ve_date, ve_desc, visit_fee, sts_bayar, id_desa, emp_id  
+            $ve_no          = '';
+            $ve_date        = vTgl_save($this->request->getPost('tgl'));
+            $ve_desc        = $this->request->getPost('ket');
+            $visit_fee      = $this->request->getPost('ujalan');
+            $sts_bayar      = 'Belum';
+            $id_desa        = $this->request->getPost('isi');
+            $emp_id         = $this->request->getPost('id_peg');
+
+            $assis_emp      = $this->request->getPost('id_pegdet');            
+            $id_barang      = $this->request->getPost('id_barang');
+            $jmlnya         = $this->request->getPost('jmlnya');
+            $ketnya         = $this->request->getPost('ketnya');
 
             // masuk database
             $data_save = [
-                'item_no'            => $item_no,
-                'item_nm'            => $item_nm,
-                'item_desc'          => $item_desc,
-                'item_unit_price'    => $item_unit_price,
-                'item_unit'          => $item_unit,
-                'item_contents'      => $item_contents,
-                'item_content_unit'  => $item_content_unit,
-                'item_model'         => $item_model,
-                'item_merk'          => $item_merk,
-                'item_stock_min'     => $item_stock_min,
-                'item_stock_max'     => $item_stock_max,
+                've_no'         => $ve_no,
+                've_date'       => $ve_date,
+                've_desc'       => $ve_desc,
+                'visit_fee'     => $visit_fee,
+                'sts_bayar'     => $sts_bayar,
+                'id_desa'       => $id_desa,
+                'emp_id'        => $emp_id,
                 'created_by'    => $nm_user,                              
                 'created_date'  => date('Y-m-d H:i:s'),        
             ];
-            //$builder = $this->db->table('isn_item');
-            //$builder->insert($data_save);
-            //$m_data->tambah($data_save);            
             $m_data->save($data_save);
-            // masuk database
-            //$this->session->setFlashdata('sukses', 'Data telah ditambah');
             return redirect()->to(base_url('admin/Kunjungan'));
         }
         $data_page = [
@@ -117,31 +108,29 @@ class Kunjungan extends BaseController
                 'nama' => 'required',
             ]
         )) {
-            $item_no        = $this->request->getPost('kd_brg');
-            $item_nm        = $this->request->getPost('nm_brg');
-            $item_desc      = $this->request->getPost('ket');
-            $item_unit_price     = $this->request->getPost('harga');
-            $item_unit           = $this->request->getPost('satuan');
-            $item_contents       = $this->request->getPost('isi');
-            $item_content_unit   = $this->request->getPost('satuan_isi');
-            $item_model          = $this->request->getPost('item_model');
-            $item_merk           = $this->request->getPost('item_merk');
-            $item_stock_min      = $this->request->getPost('stokmax');
-            $item_stock_max      = $this->request->getPost('stokmin');
+            // isn_visit_emp    = ve_id, ve_no, ve_date, ve_desc, visit_fee, sts_bayar, id_desa, emp_id  
+            $ve_no          = '';
+            $ve_date        = vTgl_save($this->request->getPost('tgl'));
+            $ve_desc        = $this->request->getPost('ket');
+            $visit_fee      = $this->request->getPost('ujalan');
+            $sts_bayar      = 'Belum';
+            $id_desa        = $this->request->getPost('isi');
+            $emp_id         = $this->request->getPost('id_peg');
+
+            $assis_emp      = $this->request->getPost('id_pegdet');            
+            $id_barang      = $this->request->getPost('id_barang');
+            $jmlnya         = $this->request->getPost('jmlnya');
+            $ketnya         = $this->request->getPost('ketnya');
 
             // masuk database
             $data_save = [
-                'item_no'            => $item_no,
-                'item_nm'            => $item_nm,
-                'item_desc'          => $item_desc,
-                'item_unit_price'    => $item_unit_price,
-                'item_unit'          => $item_unit,
-                'item_contents'      => $item_contents,
-                'item_content_unit'  => $item_content_unit,
-                'item_model'         => $item_model,
-                'item_merk'          => $item_merk,
-                'item_stock_min'     => $item_stock_min,
-                'item_stock_max'     => $item_stock_max,
+                've_no'         => $ve_no,
+                've_date'       => $ve_date,
+                've_desc'       => $ve_desc,
+                'visit_fee'     => $visit_fee,
+                'sts_bayar'     => $sts_bayar,
+                'id_desa'       => $id_desa,
+                'emp_id'        => $emp_id,
                 'modified_by'   => $nm_user,
                 'modified_date' => date('Y-m-d H:i:s'),                              
             ];

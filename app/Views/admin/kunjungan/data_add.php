@@ -56,7 +56,8 @@ $validation = \Config\Services::validation();
     </div>
     <label class="col-sm-1">U.Jalan</label>
     <div class="col-sm-3">
-        <input type="text" name="ujalan" id="ujalan" readonly  class="form-control" placeholder="Uanga Jalan" value="" style="text-align:right;">
+        <input type="text" name="ujalan2" id="ujalan2" readonly  class="form-control" placeholder="Uanga Jalan" value="" style="text-align:right;">
+        <input type="hidden" name="ujalan" id="ujalan" >
     </div>        
 </div>
 <div class="form-group row">
@@ -92,7 +93,7 @@ $validation = \Config\Services::validation();
     <div class="form-group row">
         <label class="col-sm-2">Asisten Teknisi 1</label>
         <div class="col-sm-4">
-            <select name="id_peg[]" name="id_peg1" class="form-control  select2bs4 select2bs4-info" data-dropdown-css-class="select2bs4-info" style="width: 100%;">
+            <select name="id_pegdet[]" id="id_pegdet1" class="form-control  select2bs4 select2bs4-info" data-dropdown-css-class="select2bs4-info" style="width: 100%;">
                 <option value="">-- Pilih -- </option>
                 <?php foreach ($rpeg as $rpeg2) { ?>
                     <option value="<?= $rpeg2['emp_id'] ?>">
@@ -259,7 +260,7 @@ $validation = \Config\Services::validation();
                     html ='<div class="form-group row"> ' ;
                     html = html + '<label class="col-sm-2">Asisten Teknisi '+conx+'</label> ';
                     html = html + '<div class="col-sm-4"> ';
-                    html = html + '<select name="id_peg[]" name="id_peg1" class="form-control  select2bs4 select2bs4-info" data-dropdown-css-class="select2bs4-info" style="width: 100%;"> ';
+                    html = html + '<select name="id_pegdet[]" name="id_pegdetconx" class="form-control  select2bs4 select2bs4-info" data-dropdown-css-class="select2bs4-info" style="width: 100%;"> ';
                     html = html +       '<option value="">-- Pilih -- </option> ';
                                 <?php foreach ($rpeg as $rpeg3) { ?>
                                     idnya   = "<?php echo $rpeg3['emp_id'] ?> ";
@@ -271,7 +272,7 @@ $validation = \Config\Services::validation();
                     html = html +'</select>';
                     html = html +'</div> ' ; 
                     html = html +'<div class="col-sm-4"> ' ; 
-                    html = html +' <button class="remove_field btn btn-xs btn-danger" id="hapus_soconx">&nbsp &nbsp - &nbsp &nbsp</button>';
+                    html = html +' <button class="remove_field btn btn-sm btn-danger" id="hapus_soconx">&nbsp &nbsp - &nbsp &nbsp</button>';
                     html = html +'</div> ' ; 
                     html = html +'</div>';
 
@@ -282,7 +283,7 @@ $validation = \Config\Services::validation();
         });
         
         $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-            e.preventDefault(); $(this).parent('div').remove(); conx--;
+            e.preventDefault(); $(this).parent('div').parent('div').remove(); conx--;
         })        
         $(".mdl_add").click(function(){
             //$('#id_brg option:selected').text("")
@@ -298,6 +299,7 @@ $validation = \Config\Services::validation();
             $("#model").val(""); 
             $("#kd_brg").val(""); 
             $("#nm_brg").val("");             
+            $("#ket_brg").val("");             
             $("#modal-default").modal('show');
         }); 
         // $(".mdl_close").click(function(){
@@ -320,7 +322,7 @@ $validation = \Config\Services::validation();
         var model   = $("#model").val(); 
         var kd_brg  = $("#kd_brg").val();         
         var nm_brg  = $("#nm_brg").val();         
-        var ket  = '';         
+        var ket     =  $("#ket_brg").val();         
         if (id_brg != '' &&  jml_alat > 0 ) {
             counterRowjurnal=parseInt($('#counterRowjurnal').val());
             if (counterRowjurnal==1){
@@ -331,10 +333,10 @@ $validation = \Config\Services::validation();
             var html=
             '<xzztr>'+
                 '<xzztd scope="row">conjurnal.<input class="form-control" type="hidden" style="font-size:11px" name="jurnal[][no]" value="conjurnal" ></td>'+
-                '<xzztd>'+nm_brg+' - '+ kd_brg +' - '+ model +' - '+  merk  +  '</xzztd>'+
-                '<xzztd>'+ jml_alat +'</xzztd>'+                        
+                '<xzztd>'+nm_brg+' - '+ kd_brg +' - '+ model +' - '+  merk  +  ' <input type="hidden" value="'+id_brg+'" name="id_barang[]"  id="id_barangcounterRowjurnal"  ></xzztd>'+
+                '<xzztd>'+ jml_alat +' <input type="hidden" value="'+jml_alat+'" name="jmlnya[]"  id="jmlnyacounterRowjurnal" > </xzztd>'+                        
                 '<xzztd>'+ satuan +'</xzztd>'+
-                '<xzztd>'+ ket +'</xzztd>'+
+                '<xzztd>'+ ket +' <input type="hidden" value="'+ket+'" name="ketnya[]"  id="ketnyacounterRowjurnal" >  </xzztd>'+
                 '<xzztd>'+
                     '<input id="conjurnal" type="button" onclick="delRow(this.id);"   class="btn btn-xs btn-danger" value="-"></input>'+
                 '</td>'+            
@@ -364,6 +366,7 @@ $validation = \Config\Services::validation();
         //var index = id.match(/\d+/)[0]; 
         var id_desa = $("#id_desa").val(); 
         $("#ujalan").val("");         
+        $("#ujalan2").val("");         
          //alert(index);
         if (id_desa != '' ) {
             $.ajax({
@@ -377,6 +380,7 @@ $validation = \Config\Services::validation();
                     var row_item33 		= myObject.length;
                     if(row_item33>0){
                         $("#ujalan").val(formatDollar3(data.dbdata[0]["uang_jalan"]));
+                        $("#ujalan2").val(formatDollar3(data.dbdata[0]["uang_jalan"]));
                     }
                 }
             });
