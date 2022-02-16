@@ -193,5 +193,27 @@ class Kunjungan extends BaseController
 		}
 		// echo "<pre>";print_r($data);die();
 		echo json_encode($data);
-	}    
+	}
+	public function getBarang($its_id){
+        //checklogin();
+        $m_data = new Kunjungan_model();
+        $r_data = $m_data->barang($its_id);
+		$jmlbrs 	= count($r_data);
+		if($jmlbrs>0) {
+			$data = array(
+				'response'	=> 'success',
+				'dbdata'	=> $r_data,			
+				'stsdb'		=> 'Ada',			
+			);		
+		}else{
+			//$dbstok=array();
+			$data = array(
+				'response'	=> 'success',
+				'dbdata'	=> $r_data,			
+				'stsdb'		=> '-',			
+			);			
+		}
+		// echo "<pre>";print_r($data);die();
+		echo json_encode($data);
+	}        
 }

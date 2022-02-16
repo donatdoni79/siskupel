@@ -56,7 +56,7 @@ $validation = \Config\Services::validation();
     </div>
     <label class="col-sm-1">U.Jalan</label>
     <div class="col-sm-3">
-        <input type="text" name="ujalan" id="ujalan" class="form-control" placeholder="Uanga Jalan" value="" style="text-align:right;">
+        <input type="text" name="ujalan" id="ujalan" readonly  class="form-control" placeholder="Uanga Jalan" value="" style="text-align:right;">
     </div>        
 </div>
 <div class="form-group row">
@@ -102,56 +102,51 @@ $validation = \Config\Services::validation();
                 </select>
             </div> 
         <div class="col-sm-4">
-            <button class="add_field_button btn btn-xs btn-success" id="tombol_tambah_awal">&nbsp &nbsp + &nbsp &nbsp</button>
+            <button class="add_field_button btn btn-sm btn-success" id="tombol_tambah_awal">&nbsp &nbsp + &nbsp &nbsp</button>
         </div>
     </div>
 </div>
 <hr>
 <div class="form-group row" style="margin-bottom : 0rem; ">
     <label class="col-sm-2">Peralatan</label>
-    <button class="mdl_add btn btn-xs btn-success" id="tombol_tambah_awal">&nbsp &nbsp + ADD  &nbsp &nbsp</button>
+    <a class="mdl_add btn btn-sm btn-success" id="mdl_add">&nbsp &nbsp + ADD  &nbsp &nbsp</a>
 </div>
-<table class="table table-bordered" id="example12">
+<div class="table-responsive">
+<table class="table table-striped table-bordered table-hover table-sm" id="example12" width="100%">
 	<thead>
 		<tr>
-			<th width="5%">No</th>			
-			<th width="12%">Kode</th>
-			<th width="25%">Nama Barang</th>	
-			<th width="">Model</th>	
-			<th width="">Merk</th>
-			<th width="">Jumlah</th>	
-			<th width="">Satuan</th>	
-			<th width="">Keterangan</th>
-			<th width=""></th>
+			<th width="" scope="col">No</th>			
+			<th width="" scope="col">Nama Barang</th>
+			<th width="" scope="col">Jumlah</th>	
+			<th width="" scope="col">Satuan</th>	
+			<th width="" scope="col">Keterangan</th>
+			<th width="" scope="col"></th>
 		</tr>
 	</thead>
-	<tbody>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-	</tbody>
+    <tbody>
+        <tr class="trhideclass1">
+            <td style="display: none;" scope="row"  ><input type="hidden" id="counterRowjurnal" value="0"/></td>
+            <td style="display: none;" ></td>
+            <td style="display: none;" ></td>
+            <td style="display: none;" ></td>
+            <td style="display: none;" ></td>
+            <td style="display: none;" ></td>
+
+        </tr>
+    </tbody>
 </table>
+</div>
 <hr>
 <div class="form-group row">
     <div class="col-sm-2">
         <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
     </div> 
     <div class="col-sm-2">
-        <a href="<?= base_url('admin/Barang') ?>" type="button" class="btn btn-default" ><i class="fa fa-times"></i> Cancel</a>
+        <a href="<?= base_url('admin/Kunjungan') ?>" type="button" class="btn btn-default" ><i class="fa fa-times"></i> Cancel</a>
     </div>
 </div>
 <!-- </form> -->
-
 <?= form_close(); ?>
-
 
 <div class="modal fade" id="modal-default">
 	<div class="modal-dialog modal-lg">
@@ -167,7 +162,7 @@ $validation = \Config\Services::validation();
 				<div class="form-group row">
 					<label class="col-sm-3">Nama Barang</label>
 					<div class="col-sm-9">
-                        <select name="id_brg" id="id_brg" class="form-control  select2bs4 select2bs4-purple" data-dropdown-css-class="select2bs4-purple" style="width: 100%;">
+                        <select name="id_brg" id="id_brg" onchange="isiBarang( this.id, 'true');" class="form-control  select2bs4 select2bs4-purple" data-dropdown-css-class="select2bs4-purple" style="width: 100%;">
                             <option value="">-- Pilih -- </option>
                             <?php foreach ($rbrg as $rbrg1) { ?>
                             <option value="<?= $rbrg1['item_id'] ?>">
@@ -181,20 +176,34 @@ $validation = \Config\Services::validation();
 				<div class="form-group row">
 					<label class="col-sm-3">Jumlah Dipakai</label>
 					<div class="col-sm-9">
-						<input type="text" name="username" class="form-control" placeholder="Username" value="<?= set_value('username') ?>" required>
+						<input type="number" name="jml_alat" id="jml_alat" class="form-control" data-bind="value:replyNumber" placeholder="Jumlah Alat" value="" >
 					</div>
 				</div>
-
 				<div class="form-group row">
 					<label class="col-sm-3">Satuan</label>
-					<div class="col-9">
-						<input type="text" name="stn_brg" id="stn_brg" class="form-control" placeholder="Password" value="<?= set_value('password') ?>" required>
+					<div class="col-sm-9">
+						<input type="text" name="satuan2" id="satuan2" class="form-control" placeholder="Satuan" value="" readonly>
 					</div>
+				</div> 
+				<div class="form-group row">
+					<label class="col-sm-3">Keterangan</label>
+					<div class="col-sm-9">
+						<input type="text" name="ket_brg" id="ket_brg" class="form-control" placeholder="Description" value="" >
+					</div>
+				</div>                                
+                <input type="hidden" name="merk" id="merk" class="form-control"  value="" >
+                <input type="hidden" name="model" id="model" class="form-control"  value="" >
+                <input type="hidden" name="kd_brg" id="kd_brg" class="form-control"  value="" >
+                <input type="hidden" name="satuan" id="satuan" class="form-control"  value="" >
+                <input type="hidden" name="nm_brg" id="nm_brg" class="form-control"  value="" >
+                
+				<div class="form-group row">
+					<label class="col-sm-12">&nbsp</label>
 				</div>
 			</div>
 			<div class="modal-footer justify-content-between">
-				<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> CANCEL</button>
-				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> SAVE</button>
+				<button type="button" id="mdl_close" data-dismiss="modal" class="btn btn-default" ><i class="fa fa-times"></i> CANCEL</button>
+				<a type="button" id="mdl_save" class="btn btn-success"><i class="fa fa-save"></i> SAVE</a>
 			</div>
 		</div>
 		<!-- /.modal-content -->
@@ -206,6 +215,34 @@ $validation = \Config\Services::validation();
 <script type="text/javascript">
     var conx = 1; //initlal text box count
     $(document).ready(function(){
+        $(function () {
+            $("#example12").DataTable({
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+            "responsive": true,
+            "paging": false,
+            "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]],
+            "lengthChange": true,
+            "autoWidth": true,
+            "searching": false,
+            "info": false,
+            "ordering": false,
+            // "columnDefs": [
+            //     {  // set default column settings
+            //         "orderable": false,
+            //         "targets": [1, 2, 4]
+            //     }]            
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example22').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": false,
+                "info":false,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+
         var idnya   ="";
         var nama    ="";
         var jab     ="";
@@ -234,7 +271,7 @@ $validation = \Config\Services::validation();
                     html = html +'</select>';
                     html = html +'</div> ' ; 
                     html = html +'<div class="col-sm-4"> ' ; 
-                    html = html +' <button class="remove_field btn btn-xs btn-warning" id="hapus_soconx">&nbsp &nbsp - &nbsp &nbsp</button>';
+                    html = html +' <button class="remove_field btn btn-xs btn-danger" id="hapus_soconx">&nbsp &nbsp - &nbsp &nbsp</button>';
                     html = html +'</div> ' ; 
                     html = html +'</div>';
 
@@ -248,9 +285,77 @@ $validation = \Config\Services::validation();
             e.preventDefault(); $(this).parent('div').remove(); conx--;
         })        
         $(".mdl_add").click(function(){
+            //$('#id_brg option:selected').text("")
+            //$('#id_brg option:selected').val("");
+            //$("div.id_100 select").val("val2");
+            //$('#id_brg option[value=""]').attr('selected','selected');
+            $("#id_brg").val("").change();
+            $(".chosen-select").chosen();
+            $('#jml_alat').val("0");
+            $("#satuan").val(""); 
+            $("#satuan2").val(""); 
+            $("#merk").val(""); 
+            $("#model").val(""); 
+            $("#kd_brg").val(""); 
+            $("#nm_brg").val("");             
             $("#modal-default").modal('show');
-        });        
+        }); 
+        // $(".mdl_close").click(function(){
+        //     //$("#modal-default").modal('hide');
+        //     $.modal.close();
+        // }); 
+
+        $('.trhideclass1').hide();
+        addEmptyRow();
+        $("#mdl_save").click(function(){
+            itemAdded();
+        });               
     });
+    function itemAdded(){
+        var id_brg      = $("#id_brg").val(); 
+        var jml_alat    = parseFloat($('#jml_alat').val().replace(/,/g, ''));
+        //satuan merk model kd_brg
+        var satuan  = $("#satuan").val(); 
+        var merk    = $("#merk").val(); 
+        var model   = $("#model").val(); 
+        var kd_brg  = $("#kd_brg").val();         
+        var nm_brg  = $("#nm_brg").val();         
+        var ket  = '';         
+        if (id_brg != '' &&  jml_alat > 0 ) {
+            counterRowjurnal=parseInt($('#counterRowjurnal').val());
+            if (counterRowjurnal==1){
+                delRow(counterRowjurnal);
+
+            }
+            counterRowjurnal++;
+            var html=
+            '<xzztr>'+
+                '<xzztd scope="row">conjurnal.<input class="form-control" type="hidden" style="font-size:11px" name="jurnal[][no]" value="conjurnal" ></td>'+
+                '<xzztd>'+nm_brg+' - '+ kd_brg +' - '+ model +' - '+  merk  +  '</xzztd>'+
+                '<xzztd>'+ jml_alat +'</xzztd>'+                        
+                '<xzztd>'+ satuan +'</xzztd>'+
+                '<xzztd>'+ ket +'</xzztd>'+
+                '<xzztd>'+
+                    '<input id="conjurnal" type="button" onclick="delRow(this.id);"   class="btn btn-xs btn-danger" value="-"></input>'+
+                '</td>'+            
+            '</xzztr>';
+            while (html != (html=html.replace("conjurnal", counterRowjurnal)));     
+            while (html != (html=html.replace("xzz", '')));     
+            $('#counterRowjurnal').parent().parent().before(html);
+            $('#counterRowjurnal').val(counterRowjurnal);
+            //$(".chosen-select").chosen();
+            //$('#modal-defaul').modal('toggle');
+            //$('#modal-defaul').modal('hide'); id="mdl_save"
+            //$("#mdl_save").click();
+            // $(function () {
+            //     $('#modal-defaul').modal('toggle');
+            // });
+            $('#modal-default').modal('hide');            
+        }else{
+            alert("Isi Data Barang 44");
+        }        
+
+    }
     function isiPelanggan(id){
         // CSRF Hash
         //echo csrf_field();
@@ -277,28 +382,104 @@ $validation = \Config\Services::validation();
             });
         }
     }    
+    function isiBarang(id, prm_desc){
+        // CSRF Hash
+        //echo csrf_field();
+        // var csrfName = '<?php //echo $this->security->get_csrf_token_name(); ?>'; 
+        // var csrfHash = '<?php //echo $this->security->get_csrf_hash(); ?>';      
+        //var index = id.match(/\d+/)[0]; 
+        var id_brg      = $("#id_brg").val(); 
+        var subtotal        = parseFloat($('#jml_alat').val().replace(/,/g, ''));
+        //satuan merk model kd_brg
+        var satuan  = $("#satuan").val(); 
+        var merk    = $("#merk").val(); 
+        var model   = $("#model").val(); 
+        var kd_brg  = $("#kd_brg").val(); 
+        var nm_brg  = $("#nm_brg").val(); 
+
+        $("#ujalan").val("");         
+         //alert(index);
+        if (id_brg != '' ) {
+            $.ajax({
+                type:"POST",
+                url: "<?=base_url()?>/admin/Kunjungan/getBarang/"+id_brg,
+                data: {},
+                dataType: 'json',
+                success: function(data){	                
+                    var jsonData 		= JSON.stringify(data.dbdata);
+                    var myObject 		= eval('(' + jsonData + ')');
+                    var row_item33 		= myObject.length;
+                    if(row_item33>0){
+                        // $("#ujalan").val(formatDollar3(data.dbdata[0]["uang_jalan"]));
+                        $("#satuan").val(data.dbdata[0]["item_unit"]);
+                        $("#satuan2").val(data.dbdata[0]["item_unit"]);
+                        $("#merk").val(data.dbdata[0]["item_merk"]);
+                        $("#model").val(data.dbdata[0]["item_model"]);
+                        $("#kd_brg").val(data.dbdata[0]["item_no"]);
+                        $("#nm_brg").val(data.dbdata[0]["item_nm"]);
+                    }
+                }
+            });
+        }else if(prm_desc=='true'){
+            //alert("Isi Data Barang 33");
+        }
+    }        
 </script>
 
 <script>
-  $(function () {
-    $("#example12").DataTable({
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-      "responsive": true,
-      "paging": false,
-      "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]],
-      "lengthChange": true,
-      "autoWidth": true,
-      "searching": false,
-      "info": false
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example22').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
+
+  function addRow(){
+        // delAllRow();
+        counterRowjurnal=parseInt($('#counterRowjurnal').val())+1;
+        var html=
+        '<xzztr>'+
+            '<xzztd>conjurnal.<input class="form-control" type="hidden" style="font-size:11px" name="jurnal[][no]" value="conjurnal" ></td>'+
+            '<xzztd>'+
+                '<select name="prk_id[]" id="prk_idconjurnal" class="form-custom chosen-select" onchange="selectItem(this.id); " >'+
+                    '<option value="">-- Pilih --</option>'+
+                '</select>'+
+            '</xzztd>'+
+            '<xzztd><input class="form-control " name="qty[]"   id="qtyconjurnal"  value="0" style="font-size:11px;text-align:right;" onkeypress="cegahKarakter();" onkeyup="rubahDiskon(this.id);changeTotal(this.id); sumTotal(); hitungDiskon(); tampilInvoice();"></xzztd>'+
+            '<xzztd><input class="form-control" name="satuan[]"    id="satuanconjurnal"   value=""  style="font-size:11px;" readonly></xzztd>'+
+            '<xzztd>'+
+                '<input  class="form-control"  name="snnya[]" id="snnyaconjurnal" ></input>'+
+            '</td>'+                        
+            '<xzztd><input class="form-control" name="harga[]"   id="hargaconjurnal"  value="0" style="font-size:11px;text-align:right;" onkeyup="rubahDiskon(this.id);changeTotal(this.id); sumTotal(); hitungDiskon(); tampilInvoice();" onfocusout="FormatCurrency(this);"></xzztd>'+
+            '<xzztd><input class="form-control" name="diskon[]"   id="diskonconjurnal"  value="0" style="font-size:11px;text-align:right;" onkeyup="changeTotal(this.id); sumTotal(); hitungDiskon(); tampilInvoice();" onfocusout="FormatCurrency(this);"></xzztd>'+
+            '<xzztd><input class="form-control totalb" name="totalb[]"    id="totalbconjurnal"   value="0"  style="font-size:11px;text-align:right;" readonly></xzztd>'+
+            '<xzztd>'+
+                '<input type="button" onclick="addRow();" class="btn btn-xs btn-success" value="+"></input>'+
+                '<input id="conjurnal" type="button" onclick="delRow(this.id);" class="btn btn-xs btn-warning" value="-"></input>'+
+            '</td>'+
+        '</xzztr>';
+        while (html != (html=html.replace("conjurnal", counterRowjurnal)));     
+        while (html != (html=html.replace("xzz", '')));     
+        $('#counterRowjurnal').parent().parent().before(html);
+        $('#counterRowjurnal').val(counterRowjurnal);
+        $(".chosen-select").chosen();
+        // $(".chosen-select").attr('disabled', true).trigger("chosen:updated");
+        // statusSotype();
+    }
+    function addEmptyRow(){
+        // delAllRow();
+        counterRowjurnal=parseInt($('#counterRowjurnal').val())+1;
+        var html=
+        '<xzztr>'+
+            '<xzztd scope="row">conjurnal.<input class="form-control" type="hidden" style="font-size:11px" name="jurnal[][no]" value="conjurnal" ></td>'+
+            '<xzztd></xzztd>'+
+            '<xzztd></xzztd>'+                        
+            '<xzztd></xzztd>'+
+            '<xzztd></xzztd>'+
+            '<xzztd>'+
+                '<input id="conjurnal" type="hidden" class="btn btn-xs btn-warning" value="-"></input>'+
+            '</td>'+            
+        '</xzztr>';
+        while (html != (html=html.replace("conjurnal", counterRowjurnal)));     
+        while (html != (html=html.replace("xzz", '')));     
+        $('#counterRowjurnal').parent().parent().before(html);
+        $('#counterRowjurnal').val(counterRowjurnal);
+        //$(".chosen-select").chosen();
+        // $(".chosen-select").attr('disabled', true).trigger("chosen:updated");
+        // statusSotype();
+    }          
 </script>

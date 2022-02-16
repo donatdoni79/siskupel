@@ -44,6 +44,12 @@ $site        = $konfigurasi->listing();
   <!-- SWEETALERT -->
   <script src="<?= base_url() ?>/assets/admin/sweetalert.min.js"></script>
   <!-- summernote -->
+
+  <!-- ALERTIFY -->
+  <link href="<?= base_url() ?>/assets/admin/plugins/alertify/themes/alertify.bootstrap.css" rel="stylesheet">
+  <link href="<?= base_url() ?>/assets/admin/plugins/alertify/themes/alertify.core.css" rel="stylesheet">
+  <link href="<?= base_url() ?>/assets/admin/plugins/alertify/themes/alertify.default.css" rel="stylesheet">
+
   <link rel="stylesheet" href="<?= base_url() ?>/assets/admin/plugins/summernote/summernote-bs4.min.css">
   <script src="<?= base_url('assets/tinymce/js/tinymce/tinymce.min.js') ?>"></script>
   <!-- jQuery -->
@@ -52,6 +58,8 @@ $site        = $konfigurasi->listing();
   <script src="<?= base_url('assets/admin/plugins/jquery-ui/jquery-ui.min.js') ?>"></script>
   <!-- JQuery Form -->
   <script src="<?=base_url()?>/assets/admin/plugins/jquery-ui/jquery.form.js"></script>
+  <!-- Alertify -->
+  <script src="<?= base_url() ?>/assets/admin/plugins/alertify/alertify.min.js"></script>
 
   <link href="<?= base_url('assets/admin/plugins/jquery-ui/jquery-ui.min.css') ?>" rel="stylesheet">
   <link rel="stylesheet" href="<?= base_url() ?>/assets/admin/v1.3.5/jquery.timepicker.min.css">
