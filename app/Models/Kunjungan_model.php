@@ -24,7 +24,8 @@ class Kunjungan_model extends Model
     // stock_min, stock_max, 
     // isn_desa         = id_desa, kd_desa, nama_desa, uang_jalan
     // isn_kecamatan 	= id_kec, kode_kec, nama_kec
-
+    // isn_visit_emp_det =  ve_id_det, ve_id, emp_id
+    // isn_visit_item 	= id_vi, ve_id, item_id, used_item, content_unit, vi_desc
     // datanya
     public function datanya($it_id=NULL)
     {
@@ -32,8 +33,8 @@ class Kunjungan_model extends Model
         $builder->select('isn_visit_emp.*');
         $builder->select('isn_employee.emp_no, isn_employee.name, isn_employee.addr,  isn_employee.no_hp, isn_employee.emailnya, isn_employee.position');
         $builder->select('isn_desa.kd_desa, isn_desa.nama_desa, isn_desa.uang_jalan');
-        $builder->join('isn_employee', 'isn_employee.emp_id = isn_employee.emp_id', 'LEFT');
-        $builder->join('isn_desa', 'isn_desa.id_desa = isn_desa.id_desa', 'LEFT');
+        $builder->join('isn_employee', 'isn_visit_emp.emp_id = isn_employee.emp_id', 'LEFT');
+        $builder->join('isn_desa', 'isn_visit_emp.id_desa = isn_desa.id_desa', 'LEFT');
         if ($it_id!=NULL){
             $builder->where('isn_visit_emp.ve_id' , $it_id);
         }

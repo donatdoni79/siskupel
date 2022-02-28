@@ -15,6 +15,11 @@ class Kunjungan extends BaseController
         // $nm_user = $session->get('nama');
         //$nm_user = '';     
         //$this->session->set($newdata);
+	    // echo "tess";
+	    // echo "<pre>";
+	    // print_r($ppn);
+	    //die();
+
         $m_data = new Kunjungan_model();
         $r_data = $m_data->datanya();
         $data_page = [
@@ -43,7 +48,9 @@ class Kunjungan extends BaseController
         // Start validasi id_desa id_peg
         if ($this->request->getMethod() === 'post' && $this->validate(
             [
-                'id_desa' => 'required', 'id_peg' => 'required', 'tgl' => 'required'
+                'id_desa' => ['label' => 'Pilih Pelanggan, ', 'rules' => 'required'],
+                'id_peg' => ['label' => 'Pilih Teknisi, ', 'rules' => 'required'],
+                'tgl' => ['label' => 'Tanggal Tidak boleh kosong, ', 'rules' => 'required']
             ])) 
         {
     // isn_visit_emp    = ve_id, ve_no, ve_date, ve_desc, visit_fee, sts_bayar, id_desa, emp_id  
@@ -54,12 +61,13 @@ class Kunjungan extends BaseController
             $sts_bayar      = 'Belum';
             $id_desa        = $this->request->getPost('isi');
             $emp_id         = $this->request->getPost('id_peg');
-
+            
             $assis_emp      = $this->request->getPost('id_pegdet');            
             $id_barang      = $this->request->getPost('id_barang');
             $jmlnya         = $this->request->getPost('jmlnya');
+            $hrg_brgnya     = $this->request->getPost('hrg_brg');
             $ketnya         = $this->request->getPost('ketnya');
-
+            
             // masuk database
             $data_save = [
                 've_no'         => $ve_no,
@@ -73,6 +81,48 @@ class Kunjungan extends BaseController
                 'created_date'  => date('Y-m-d H:i:s'),        
             ];
             $m_data->save($data_save);
+            $id = $m_data->getInsertID();
+            
+            // Insert Employe Assistens
+            $xy=0; $emp_id;
+            $val_assis_emp = count($assis_emp);
+
+            // isn_visit_emp_det =  ve_id_det, ve_id, emp_id
+            while($xy<$val_assis_emp){
+                $emp_id =$assis_emp[$xy];
+                if(!empty($emp_id)){
+                    $data_save = [
+                        've_id'     => $id,
+                        'emp_id'    => $emp_id,
+                    ];
+                    $builder_01 = $this->db->table('isn_visit_emp_det');
+                    $builder_01->insert($data_save);
+                    //$this->db->insert('isn_visit_emp_det', $data_save);
+                }
+                $xy++;
+            }
+            // Insert Item isn_visit_item 	= id_vi, ve_id, item_id, used_item, content_unit, vi_desc
+            $jml_brg = count($id_barang);
+            $xy=0;$brg_id= ""; $brg_jml=""; 
+            while($xy<$jml_brg){
+                $brg_id= ""; $brg_jml="";
+                $brg_id     = $id_barang[$xy];
+                $brg_jml    = $jmlnya[$xy];
+                $hrg_brg    = $$hrg_brgnya[$xy];
+                if(!empty($brg_id)){
+                    $data_save = [
+                        've_id'         => $id,
+                        'emp_id'        => $brg_id,
+                        'used_item'     => $brg_jml,
+                        'content_unit'  => $hrg_brg,
+                        'vi_desc'       => '',
+                    ];
+                    $builder_01 = $this->db->table('isn_visit_item');
+                    $builder_01->insert($data_save);
+                    //$this->db->insert('isn_visit_emp_det', $data_save);
+                }
+                $xy++;
+            }                
             return redirect()->to(base_url('admin/Kunjungan'));
         }
         $data_page = [
